@@ -186,7 +186,6 @@ export default function Personal() {
           </div>
         </div>
 
-        {/* 🟩 Right side — Text content */}
         <div className="text-white flex flex-col justify-center items-start px-4 xl:px-10">
           <p className="pb-16 text-lg leading-relaxed text-white/80">
             FitSync personalizes every workout to match your lifestyle keeping
