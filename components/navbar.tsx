@@ -103,7 +103,7 @@ export default function NavBar() {
 
               {/* Label that shows on hover */}
               <span className="absolute left-1/2 transform -translate-x-1/2 -bottom-8 opacity-0 group-hover:opacity-100 bg-black text-white text-sm px-2 py-1 rounded transition-opacity duration-200">
-                Subscribe
+                AI plan
               </span>
             </Link>
             {user?.imageUrl ? (
