@@ -83,7 +83,8 @@ async function handleCheckoutSessionCompleted(
 /* ----------------- INVOICE PAYMENT FAILED ----------------- */
 
 async function handleInvoicePaymentFailed(invoice: Stripe.Invoice) {
-  // Stripe typings sometimes exclude subscription from Invoice
+  // Stripe typings incorrectly hide subscription field
+  // @ts-ignore
   const subId = invoice.subscription ?? invoice.lines.data[0]?.subscription;
 
   if (!subId) return;
@@ -96,10 +97,7 @@ async function handleInvoicePaymentFailed(invoice: Stripe.Invoice) {
       select: { userId: true },
     });
 
-    if (!profile?.userId) {
-      console.log("No profile found for failed invoice");
-      return;
-    }
+    if (!profile?.userId) return;
 
     userId = profile.userId;
   } catch (error: any) {
@@ -110,9 +108,7 @@ async function handleInvoicePaymentFailed(invoice: Stripe.Invoice) {
   try {
     await prisma.profile.update({
       where: { userId },
-      data: {
-        subscriptionActive: false,
-      },
+      data: { subscriptionActive: false },
     });
   } catch (error: any) {
     console.log(error.message);
