@@ -66,18 +66,24 @@ async function handleCheckoutSessionCompleted(
     return;
   }
 
-  try {
-    await prisma.profile.update({
-      where: { userId },
-      data: {
-        stripeSubscriptionId: subscriptionId,
-        subscriptionActive: true,
-        subscriptionTier: session.metadata?.planType || null,
-      },
-    });
-  } catch (error: any) {
-    console.log(error.message);
-  }
+try {
+  await prisma.profile.upsert({
+    where: { userId },
+    update: {
+      stripeSubscriptionId: subscriptionId,
+      subscriptionActive: true,
+      subscriptionTier: session.metadata?.planType || null,
+    },
+    create: {
+      userId,
+      email: session.customer_email || "",
+      stripeSubscriptionId: subscriptionId,
+      subscriptionActive: true,
+      subscriptionTier: session.metadata?.planType || null,
+    },
+  });
+} catch (error: any) {
+  console.log(error.message);
 }
 
 /* ----------------- INVOICE PAYMENT FAILED ----------------- */
