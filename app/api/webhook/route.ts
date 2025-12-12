@@ -85,7 +85,7 @@ try {
 } catch (error: any) {
   console.log(error.message);
 }
-
+}
 /* ----------------- INVOICE PAYMENT FAILED ----------------- */
 
 async function handleInvoicePaymentFailed(invoice: Stripe.Invoice) {
